@@ -13,6 +13,8 @@ void GameEngine::init()
     m_window.create(sf::VideoMode(1600, 900), "Grid View");
     m_window.setFramerateLimit(60);
 
+    ImGui::SFML::Init(m_window);
+
     Assets::Instance().addFont("Tech", "fonts/tech.ttf");
 }
 
@@ -56,11 +58,16 @@ std::shared_ptr<Scene> GameEngine::currentScene()
 
 void GameEngine::update()
 {
+    ImGui::SFML::Update(m_window, m_deltaClock.restart());
+
     if (!isRunning()) { return; }
 
     if (m_sceneMap.empty()) { return; }
 
+    m_window.clear();
     currentScene()->onFrame();
+    ImGui::SFML::Render(m_window);
+    m_window.display();
 }
 
 void GameEngine::run()

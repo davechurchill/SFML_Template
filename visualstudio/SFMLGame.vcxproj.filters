@@ -14,6 +14,24 @@
     <ClCompile Include="..\src\Scene_Grid.cpp">
       <Filter>gui</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\imgui\imgui.cpp">
+      <Filter>engine\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\imgui\imgui_demo.cpp">
+      <Filter>engine\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\imgui\imgui_draw.cpp">
+      <Filter>engine\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\imgui\imgui_tables.cpp">
+      <Filter>engine\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\imgui\imgui_widgets.cpp">
+      <Filter>engine\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\imgui\imgui-SFML.cpp">
+      <Filter>engine\imgui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Assets.h">
@@ -37,6 +55,33 @@
     <ClInclude Include="..\src\Scene_Grid.h">
       <Filter>gui</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\imgui\imconfig.h">
+      <Filter>engine\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\imgui\imconfig-SFML.h">
+      <Filter>engine\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\imgui\imgui.h">
+      <Filter>engine\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\imgui\imgui_internal.h">
+      <Filter>engine\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\imgui\imgui-SFML.h">
+      <Filter>engine\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\imgui\imgui-SFML_export.h">
+      <Filter>engine\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\imgui\imstb_rectpack.h">
+      <Filter>engine\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\imgui\imstb_textedit.h">
+      <Filter>engine\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\imgui\imstb_truetype.h">
+      <Filter>engine\imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="engine">
@@ -44,6 +89,9 @@
     </Filter>
     <Filter Include="gui">
       <UniqueIdentifier>{e6405375-fc0b-41c2-b260-7a1a61b6a5e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\imgui">
+      <UniqueIdentifier>{b6415459-acca-41b7-ac35-852879286876}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

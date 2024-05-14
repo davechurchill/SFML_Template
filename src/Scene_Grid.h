@@ -28,6 +28,7 @@ class Scene_Grid : public Scene
     
     void init();  
 
+    void sGUI();
     void sUserInput();  
     void sRender();
     

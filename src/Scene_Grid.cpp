@@ -48,6 +48,7 @@ void Scene_Grid::onFrame()
 {
     m_view.update();
     sUserInput();
+    sGUI();
     sRender(); 
     m_currentFrame++;
 }
@@ -62,6 +63,8 @@ void Scene_Grid::sUserInput()
         {
             m_game->quit();
         }
+
+        ImGui::SFML::ProcessEvent(m_game->window(), event);
 
         // this event is triggered when a key is pressed
         if (event.type == sf::Event::KeyPressed)
@@ -151,13 +154,46 @@ void Scene_Grid::sUserInput()
     }
 }
 
+void Scene_Grid::sGUI()
+{
+  
+    ImGui::Begin("Scene Properties");
+
+    if (ImGui::BeginTabBar("MyTabBar"))
+    {
+        if (ImGui::BeginTabItem("Debug"))
+        {
+            ImGui::EndTabItem();
+        }
+
+        if (ImGui::BeginTabItem("Animations"))
+        {
+            // STUDENT TODO
+            ImGui::Text("Do this");
+
+            ImGui::EndTabItem();
+        }
+
+        if (ImGui::BeginTabItem("Entity Manager"))
+        {
+            // STUDENT TODO
+            ImGui::Text("Do this too");
+
+            ImGui::EndTabItem();
+        }
+
+        ImGui::EndTabBar();
+    }
+
+    ImGui::End();
+    
+}
 
 // renders the scene
 void Scene_Grid::sRender()
 {
     const sf::Color gridColor(64, 64, 64);
 
-    m_game->window().clear();
     m_lineStrip.clear();
     m_quadArray.clear();
     float gs = (float)m_gridSize;
@@ -185,5 +221,4 @@ void Scene_Grid::sRender()
     m_game->window().draw(m_lineStrip);
     m_game->window().setView(m_game->window().getDefaultView());
     m_game->window().draw(m_text);
-    m_game->window().display();
 }
