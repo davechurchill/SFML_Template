@@ -65,6 +65,7 @@ void Scene_Grid::sUserInput()
         }
 
         ImGui::SFML::ProcessEvent(m_game->window(), event);
+        m_view.processEvent(event);
 
         // this event is triggered when a key is pressed
         if (event.type == sf::Event::KeyPressed)
@@ -76,8 +77,6 @@ void Scene_Grid::sUserInput()
                     m_game->changeScene("MENU", nullptr, true);
                     break;
                 }
-                case sf::Keyboard::W: m_view.zoom(0.8); break;
-                case sf::Keyboard::D: m_view.zoom(1.2); break;
                 case sf::Keyboard::G: m_drawGrid = !m_drawGrid; break;
             }
         }
@@ -86,70 +85,36 @@ void Scene_Grid::sUserInput()
         {
             switch (event.key.code)
             {
-            case sf::Keyboard::W: break;
-            case sf::Keyboard::A: break;
-            case sf::Keyboard::S: break;
-            case sf::Keyboard::D: break;
+                case sf::Keyboard::W: break;
+                case sf::Keyboard::A: break;
+                case sf::Keyboard::S: break;
+                case sf::Keyboard::D: break;
             }
         }
 
         if (event.type == sf::Event::MouseButtonPressed)
         {
-            // happens when the left mouse button is pressed
-            if (event.mouseButton.button == sf::Mouse::Left)
-            {
-                m_view.stopScroll();
-            }
-
-            // happens when the right mouse button is pressed
-            if (event.mouseButton.button == sf::Mouse::Right)
-            {
-                m_drag = { event.mouseButton.x, event.mouseButton.y };
-                m_view.stopScroll();
-            }
+            if (event.mouseButton.button == sf::Mouse::Left) {}
+            if (event.mouseButton.button == sf::Mouse::Right) {}
         }
 
         // happens when the mouse button is released
         if (event.type == sf::Event::MouseButtonReleased)
         {
-            // let go of the currently selected rectangle
-            if (event.mouseButton.button == sf::Mouse::Left)
-            {
-                
-            }
-
-            // let go of the currently selected rectangle
-            if (event.mouseButton.button == sf::Mouse::Right)
-            {
-                m_drag = { -1, -1 };
-            }
-        }
-
-        if (event.type == sf::Event::MouseWheelMoved)
-        {
-            double zoom = 1.0 - (0.2 * event.mouseWheel.delta);
-            m_view.zoomTo(zoom, Vec2(event.mouseWheel.x, event.mouseWheel.y));
+            if (event.mouseButton.button == sf::Mouse::Left)  { }
+            if (event.mouseButton.button == sf::Mouse::Right) { }
         }
 
         // happens whenever the mouse is being moved
         if (event.type == sf::Event::MouseMoved)
         {
-            m_mouseScreen = { event.mouseMove.x, event.mouseMove.y };
+            m_mouseWindowPos = { event.mouseMove.x, event.mouseMove.y };
 
             // record the current mouse position in universe coordinates
-            m_mouseWorld = m_view.windowToWorld(m_mouseScreen);
+            m_mouseWorldPos = m_view.windowToWorld(m_mouseWindowPos);
 
             // record the grid cell that the mouse position is currently over
-            m_mouseGrid = { floor(m_mouseWorld.x / m_gridSize) * m_gridSize, floor(m_mouseWorld.y / m_gridSize) * m_gridSize };
-
-            if (m_drag.x != -1)
-            {
-                auto prev = m_view.windowToWorld(m_drag);
-                auto curr = m_view.windowToWorld({ event.mouseMove.x, event.mouseMove.y });
-                auto scroll = prev - curr;
-                m_view.scroll(prev - curr);
-                m_drag = { event.mouseMove.x, event.mouseMove.y };
-            }
+            m_mouseGrid = { floor(m_mouseWorldPos.x / m_gridSize) * m_gridSize, floor(m_mouseWorldPos.y / m_gridSize) * m_gridSize };
         }
     }
 }
@@ -186,7 +151,6 @@ void Scene_Grid::sGUI()
     }
 
     ImGui::End();
-    
 }
 
 // renders the scene

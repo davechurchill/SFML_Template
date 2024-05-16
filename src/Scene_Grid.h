@@ -19,9 +19,9 @@ class Scene_Grid : public Scene
     Grid<int>           m_grid;
     std::vector<sf::Color> m_gridColors;
 
-    Vec2                m_drag = { -1, -1 };
-    Vec2                m_mouseScreen;
-    Vec2                m_mouseWorld;
+    Vec2                m_dragAmount = { -1, -1 };
+    Vec2                m_mouseWindowPos;
+    Vec2                m_mouseWorldPos;
     Vec2                m_mouseGrid;
     
     WorldView           m_view;
