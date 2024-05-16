@@ -4,16 +4,16 @@
 
 class WorldView
 {
-    sf::Vector2f    m_viewPos;                  // the top-left (x, y) position of the view
-    sf::Vector2f    m_viewSize;                 // the size (width, height) of the view
-    sf::Vector2f    m_viewCenter;               // the center (x, y) position of the view
-    sf::Vector2f    m_savedViewPos;             // the top-left (x, y) position of the saved view
-    sf::Vector2f    m_savedViewSize;            // the size (width, height) of the saved view
-    sf::Vector2f    m_scrollAmount;             // the amount we should scroll on the next frame update
-    sf::Vector2f    m_windowSize;               // the size of the SFML window
-    sf::Vector2f    m_mouseWindowPos;           // position of the mouse on the SFML window
-    sf::Vector2f    m_mouseWorldPos;            // position of the mouse in the SFML world
-    sf::Vector2f    m_dragAmount;               // amount the mouse was physically dragged last frame
+    sf::Vector2f    m_viewPos;          // the top-left (x, y) position of the view
+    sf::Vector2f    m_viewSize;         // the size (width, height) of the view
+    sf::Vector2f    m_viewCenter;       // the center (x, y) position of the view
+    sf::Vector2f    m_savedViewPos;     // the top-left (x, y) position of the saved view
+    sf::Vector2f    m_savedViewSize;    // the size (width, height) of the saved view
+    sf::Vector2f    m_scrollAmount;     // the amount we should scroll on the next frame update
+    sf::Vector2f    m_windowSize;       // the size of the SFML window
+    sf::Vector2f    m_mouseWindowPos;   // position of the mouse on the SFML window
+    sf::Vector2f    m_mouseWorldPos;    // position of the mouse in the SFML world
+    sf::Vector2f    m_dragAmount;       // amount the mouse was physically dragged last frame
 
     bool    m_dragging = false;         // whether we are currently dragging the view
 
