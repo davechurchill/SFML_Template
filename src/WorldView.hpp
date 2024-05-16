@@ -1,20 +1,19 @@
 #pragma once
 
-#include "Vec2.hpp"
 #include <SFML/Graphics.hpp>
 
 class WorldView
 {
-    Vec2    m_viewPos;                  // the top-left (x, y) position of the view
-    Vec2    m_viewSize;                 // the size (width, height) of the view
-    Vec2    m_viewCenter;               // the center (x, y) position of the view
-    Vec2    m_savedViewPos;             // the top-left (x, y) position of the saved view
-    Vec2    m_savedViewSize;            // the size (width, height) of the saved view
-    Vec2    m_scrollAmount;             // the amount we should scroll on the next frame update
-    Vec2    m_windowSize;               // the size of the SFML window
-    Vec2    m_mouseWindowPos;           // position of the mouse on the SFML window
-    Vec2    m_mouseWorldPos;            // position of the mouse in the SFML world
-    Vec2    m_dragAmount;               // amount the mouse was physically dragged last frame
+    sf::Vector2f    m_viewPos;                  // the top-left (x, y) position of the view
+    sf::Vector2f    m_viewSize;                 // the size (width, height) of the view
+    sf::Vector2f    m_viewCenter;               // the center (x, y) position of the view
+    sf::Vector2f    m_savedViewPos;             // the top-left (x, y) position of the saved view
+    sf::Vector2f    m_savedViewSize;            // the size (width, height) of the saved view
+    sf::Vector2f    m_scrollAmount;             // the amount we should scroll on the next frame update
+    sf::Vector2f    m_windowSize;               // the size of the SFML window
+    sf::Vector2f    m_mouseWindowPos;           // position of the mouse on the SFML window
+    sf::Vector2f    m_mouseWorldPos;            // position of the mouse in the SFML world
+    sf::Vector2f    m_dragAmount;               // amount the mouse was physically dragged last frame
 
     bool    m_dragging = false;         // whether we are currently dragging the view
 
@@ -24,6 +23,11 @@ class WorldView
 
     int     m_scrollButton = sf::Mouse::Right;
 
+    float length(sf::Vector2f v)
+    {
+        return sqrtf(v.x * v.x + v.y * v.y);
+    }
+
 public:
 
     WorldView() { }
@@ -31,31 +35,36 @@ public:
     void update()
     {
         move(m_scrollAmount);
-        m_scrollAmount *= (m_scrollAmount.length() >= m_stopScrollSpeed) ? m_scrollDecel : 0;
+        m_scrollAmount *= (length(m_scrollAmount) >= m_stopScrollSpeed) ? m_scrollDecel : 0;
         if (!m_scrollMomentum) { m_scrollAmount = { 0, 0 }; }
     }
 
-    void scroll(Vec2 scroll)
+    void scroll(sf::Vector2f scroll)
     {
         m_scrollAmount = scroll;
     }
     
-    void move(Vec2 move)
+    void move(sf::Vector2f move)
     {
         m_viewPos += move;
         m_viewCenter += move;
     }
 
-    Vec2 windowToWorld(Vec2 screen)
+    sf::Vector2f windowToWorld(float x, float y)
     {
-        Vec2 ratio = { screen.x / m_windowSize.x, screen.y / m_windowSize.y };
+        sf::Vector2f ratio = { x / m_windowSize.x, y / m_windowSize.y };
         return { m_viewPos.x + ratio.x * m_viewSize.x, m_viewPos.y + ratio.y * m_viewSize.y };
     }
 
-    void moveTo(Vec2 moveTo)
+    sf::Vector2f windowToWorld(sf::Vector2f screen)
+    {
+        return windowToWorld(screen.x, screen.y);
+    }
+
+    void moveTo(sf::Vector2f moveTo)
     {
         m_viewPos = moveTo;
-        m_viewCenter = m_viewPos + m_viewSize / 2;
+        m_viewCenter = m_viewPos + (m_viewSize / 2.0f);
     }
 
     void saveView()
@@ -68,45 +77,45 @@ public:
     {
         m_viewPos = m_savedViewPos;
         m_viewSize = m_savedViewSize;
-        m_viewCenter = m_viewPos + m_viewSize / 2;
+        m_viewCenter = m_viewPos + (m_viewSize / 2.0f);
         stopScroll();
     }
     
     // zoom by a given amount, maintain center
-    void zoom(double factor)
+    void zoom(float factor)
     {
-        m_viewSize *= factor;
-        m_viewPos   = m_viewCenter - m_viewSize / 2;
+        m_viewSize = m_viewSize * factor;
+        m_viewCenter = m_viewPos + (m_viewSize / 2.0f);
     }
 
     // zoom to a target, it will remain fixed
-    void zoomTo(double factor, Vec2 target)
+    void zoomTo(float factor, sf::Vector2f target)
     {
-        Vec2 pRatio = target / m_windowSize;
-        Vec2 oldPos = m_viewPos + m_viewSize * pRatio;
+        sf::Vector2f pRatio(target.x / m_windowSize.x, target.y / m_windowSize.y);
+        sf::Vector2f oldPos = m_viewPos + sf::Vector2f(m_viewSize.x * pRatio.x, m_viewSize.y * pRatio.y);
 
         m_viewSize *= factor;
-        m_viewPos = m_viewCenter - m_viewSize / 2;
+        m_viewPos = m_viewCenter - (m_viewSize / 2.0f);
 
-        Vec2 newPos = m_viewPos + m_viewSize * pRatio;
+        sf::Vector2f newPos = m_viewPos + sf::Vector2f(m_viewSize.x * pRatio.x, m_viewSize.y * pRatio.y);
         move(oldPos -newPos);
     }
     
     void setView(const sf::View& view)
     {
-        m_viewCenter = { view.getCenter().x, view.getCenter().y };
-        m_viewSize   = { view.getSize().x, view.getSize().y };
-        m_viewPos    = m_viewCenter - m_viewSize / 2;
+        m_viewCenter = view.getCenter();
+        m_viewSize   = view.getSize();
+        m_viewPos    = m_viewCenter - (m_viewSize / 2.0f);
     }
 
     void stopScroll()
     {
-        m_scrollAmount = Vec2();
+        m_scrollAmount = sf::Vector2f();
     }
 
     sf::View getSFMLView()
     {
-        return sf::View(sf::FloatRect((float)m_viewPos.x, (float)m_viewPos.y, (float)m_viewSize.x, (float)m_viewSize.y));
+        return sf::View(sf::FloatRect(m_viewPos.x, m_viewPos.y, m_viewSize.x, m_viewSize.y));
     }
 
     void processEvent(const sf::Event& event)
@@ -117,7 +126,7 @@ public:
             if (event.mouseButton.button == m_scrollButton)
             {
                 m_dragging = true;
-                m_dragAmount = { event.mouseButton.x, event.mouseButton.y };
+                m_dragAmount = sf::Vector2f((float)event.mouseButton.x, (float)event.mouseButton.y);
                 stopScroll();
             }
         }
@@ -130,33 +139,33 @@ public:
 
         if (event.type == sf::Event::MouseWheelMoved)
         {
-            double zoom = 1.0 - (0.2 * event.mouseWheel.delta);
-            zoomTo(zoom, Vec2(event.mouseWheel.x, event.mouseWheel.y));
+            float zoom = 1.0f - (0.2f * event.mouseWheel.delta);
+            zoomTo(zoom, sf::Vector2f((float)event.mouseWheel.x, (float)event.mouseWheel.y));
         }
 
         // happens whenever the mouse is being moved
         if (event.type == sf::Event::MouseMoved)
         {
-            m_mouseWindowPos = { event.mouseMove.x, event.mouseMove.y };
+            m_mouseWindowPos = { (float)event.mouseMove.x, (float)event.mouseMove.y };
             m_mouseWorldPos = windowToWorld(m_mouseWindowPos);
 
             if (m_dragging)
             {
                 auto prev = windowToWorld(m_dragAmount);
-                auto curr = windowToWorld({ event.mouseMove.x, event.mouseMove.y });
+                auto curr = windowToWorld({ (float)event.mouseMove.x, (float)event.mouseMove.y });
                 scroll(prev - curr);
-                m_dragAmount = { event.mouseMove.x, event.mouseMove.y };
+                m_dragAmount = { (float)event.mouseMove.x, (float)event.mouseMove.y };
             }
         }
     }
 
-    void setWindowSize(Vec2 windowSize) { m_windowSize = windowSize; }
+    void setWindowSize(sf::Vector2u windowSize) { m_windowSize = sf::Vector2f((float)windowSize.x, (float)windowSize.y); }
     void setScrollButton(int button) { m_scrollButton = button; }
     void setScrollMomentum(bool momentum) { m_scrollMomentum = momentum; }
 
-    const Vec2& pos() const { return m_viewPos; }
-    const Vec2& center() const { return m_viewCenter; }
-    const Vec2& size() const { return m_viewSize; }
-    const Vec2& savedPos() const { return m_savedViewPos; }
-    const Vec2& savedSize() const { return m_savedViewSize; }
+    sf::Vector2f pos() const { return m_viewPos; }
+    sf::Vector2f center() const { return m_viewCenter; }
+    sf::Vector2f size() const { return m_viewSize; }
+    sf::Vector2f savedPos() const { return m_savedViewPos; }
+    sf::Vector2f savedSize() const { return m_savedViewSize; }
 };

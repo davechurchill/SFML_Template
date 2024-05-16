@@ -17,8 +17,7 @@ Scene_Grid::Scene_Grid(GameEngine * game)
 
 void Scene_Grid::init()
 {
-    m_view.setWindowSize(Vec2(m_game->window().getSize().x, m_game->window().getSize().y));
-
+    m_view.setWindowSize(m_game->window().getSize());
     m_view.setView(m_game->window().getView());
     m_view.zoomTo(8, { 0, 0 });
     //m_view.move({ -m_gridSize*3, -m_gridSize*3 });
@@ -111,7 +110,9 @@ void Scene_Grid::sUserInput()
             m_mouseWindowPos = { event.mouseMove.x, event.mouseMove.y };
 
             // record the current mouse position in universe coordinates
-            m_mouseWorldPos = m_view.windowToWorld(m_mouseWindowPos);
+            auto world = m_view.windowToWorld((float)event.mouseMove.x, (float)event.mouseMove.y);
+
+            m_mouseWorldPos = Vec2(world.x, world.y);
 
             // record the grid cell that the mouse position is currently over
             m_mouseGrid = { floor(m_mouseWorldPos.x / m_gridSize) * m_gridSize, floor(m_mouseWorldPos.y / m_gridSize) * m_gridSize };

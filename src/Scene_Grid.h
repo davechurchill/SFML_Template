@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "WorldView.hpp"
 #include "Grid.hpp"
+#include "Vec2.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
