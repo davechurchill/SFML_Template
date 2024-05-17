@@ -37,17 +37,17 @@ public:
     // will modify the view of the window immediately
     void processEvent(const sf::Event& event)
     {
+        sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
+
         if (event.type == sf::Event::MouseWheelScrolled)
         {
             float zoom = 1.0f - (0.2f * event.mouseWheelScroll.delta);
-            sf::Vector2f worldPos = m_window.mapPixelToCoords({ event.mouseWheelScroll.x, event.mouseWheelScroll.y });
+            sf::Vector2f worldPos = m_window.mapPixelToCoords(mousePos);
             zoomTo(zoom, worldPos);
         }
 
         if (event.type == sf::Event::MouseMoved)
         {
-            sf::Vector2i mousePos(event.mouseMove.x, event.mouseMove.y);
-
             if (sf::Mouse::isButtonPressed(m_scrollButton))
             {
                 sf::Vector2f prev = m_window.mapPixelToCoords(m_previousMousePos);
@@ -57,7 +57,7 @@ public:
                 m_window.setView(view);
             }
 
-            m_previousMousePos = { event.mouseMove.x, event.mouseMove.y };
+            m_previousMousePos = mousePos;
         }
     }
 };
