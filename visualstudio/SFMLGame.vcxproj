@@ -48,6 +48,7 @@
     <ClInclude Include="..\src\Grid.hpp" />
     <ClInclude Include="..\src\Vec2.hpp" />
     <ClInclude Include="..\src\WorldView.hpp" />
+    <ClInclude Include="..\src\ViewController.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{08A10BC2-2DCF-4F95-A0B2-BA931971AEEA}</ProjectGuid>

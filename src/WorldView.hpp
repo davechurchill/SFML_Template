@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
+// note: deprecated in favor of the new ViewController class
 class WorldView
 {
     sf::Vector2f    m_viewPos;          // the top-left (x, y) position of the view

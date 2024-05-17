@@ -82,6 +82,9 @@
     <ClInclude Include="..\src\imgui\imstb_truetype.h">
       <Filter>engine\imgui</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\ViewController.hpp">
+      <Filter>engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="engine">

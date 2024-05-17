@@ -11,16 +11,14 @@
 
 Scene_Grid::Scene_Grid(GameEngine * game)
     : Scene(game)
+    , m_viewController(game->window())
 {
     init();
 }
 
 void Scene_Grid::init()
 {
-    m_view.setWindowSize(m_game->window().getSize());
-    m_view.setView(m_game->window().getView());
-    m_view.zoomTo(8, { 0, 0 });
-    //m_view.move({ -m_gridSize*3, -m_gridSize*3 });
+    m_viewController.zoomTo(8, { 0, 0 });
         
     m_font = Assets::Instance().getFont("Tech");
     m_text.setFont(m_font);
@@ -45,7 +43,7 @@ void Scene_Grid::init()
 
 void Scene_Grid::onFrame()
 {
-    m_view.update();
+    //m_view.update();
     sUserInput();
     sGUI();
     sRender(); 
@@ -64,7 +62,7 @@ void Scene_Grid::sUserInput()
         }
 
         ImGui::SFML::ProcessEvent(m_game->window(), event);
-        m_view.processEvent(event);
+        m_viewController.processEvent(event);
 
         // this event is triggered when a key is pressed
         if (event.type == sf::Event::KeyPressed)
@@ -108,11 +106,7 @@ void Scene_Grid::sUserInput()
         if (event.type == sf::Event::MouseMoved)
         {
             m_mouseWindowPos = { event.mouseMove.x, event.mouseMove.y };
-
-            // record the current mouse position in universe coordinates
-            auto world = m_view.windowToWorld((float)event.mouseMove.x, (float)event.mouseMove.y);
-
-            m_mouseWorldPos = Vec2(world.x, world.y);
+            sf::Vector2i pixelPos = sf::Mouse::getPosition(m_game->window());
 
             // record the grid cell that the mouse position is currently over
             m_mouseGrid = { floor(m_mouseWorldPos.x / m_gridSize) * m_gridSize, floor(m_mouseWorldPos.y / m_gridSize) * m_gridSize };
@@ -162,7 +156,7 @@ void Scene_Grid::sRender()
     m_lineStrip.clear();
     m_quadArray.clear();
     float gs = (float)m_gridSize;
-    m_game->window().setView(m_view.getSFMLView());
+    //m_game->window().setView(m_view.getSFMLView());
 
     // draw grid cells with the associated colors
     for (size_t x = 0; x < m_grid.width(); x++)
@@ -184,6 +178,6 @@ void Scene_Grid::sRender()
 
     m_game->window().draw(m_quadArray);
     m_game->window().draw(m_lineStrip);
-    m_game->window().setView(m_game->window().getDefaultView());
+    //m_game->window().setView(m_game->window().getDefaultView());
     m_game->window().draw(m_text);
 }

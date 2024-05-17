@@ -2,6 +2,7 @@
 
 #include "Scene.h"
 #include "WorldView.hpp"
+#include "ViewController.hpp"
 #include "Grid.hpp"
 #include "Vec2.hpp"
 
@@ -20,12 +21,11 @@ class Scene_Grid : public Scene
     Grid<int>           m_grid;
     std::vector<sf::Color> m_gridColors;
 
-    Vec2                m_dragAmount = { -1, -1 };
     Vec2                m_mouseWindowPos;
     Vec2                m_mouseWorldPos;
     Vec2                m_mouseGrid;
     
-    WorldView           m_view;
+    ViewController      m_viewController;
     
     void init();  
 
