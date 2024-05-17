@@ -11,7 +11,6 @@
 
 Scene_Grid::Scene_Grid(GameEngine * game)
     : Scene(game)
-    , m_viewController(game->window())
 {
     init();
 }

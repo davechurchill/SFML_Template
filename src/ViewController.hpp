@@ -10,7 +10,7 @@ class ViewController
 
 public:
 
-    ViewController(sf::RenderWindow& window)
+    ViewController()
     { 
     }
 
