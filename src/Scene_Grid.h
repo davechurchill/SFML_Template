@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Scene.h"
-#include "WorldView.hpp"
+#include "Scene.hpp"
 #include "ViewController.hpp"
 #include "Grid.hpp"
 #include "Vec2.hpp"
@@ -12,19 +11,13 @@
 class Scene_Grid : public Scene
 {   
     sf::Font            m_font;             
-    sf::Text            m_text;
+    sf::Text            m_text{ m_font };
 
     float               m_gridSize = 32;
-    bool                m_drawGrid = true;
-
 
     Grid<int>           m_grid;
     std::vector<sf::Color> m_gridColors;
-
-    Vec2                m_mouseWindowPos;
-    Vec2                m_mouseWorldPos;
-    Vec2                m_mouseGrid;
-    
+        
     ViewController      m_viewController;
     
     void init();  

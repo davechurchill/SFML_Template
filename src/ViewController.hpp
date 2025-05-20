@@ -6,7 +6,7 @@
 class ViewController
 {
     sf::Vector2i        m_previousMousePos;
-    sf::Mouse::Button   m_scrollButton = sf::Mouse::Right;
+    sf::Mouse::Button   m_scrollButton = sf::Mouse::Button::Right;
 
 public:
 
@@ -37,14 +37,14 @@ public:
     {
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
-        if (event.type == sf::Event::MouseWheelScrolled)
+        if (auto* mw = event.getIf<sf::Event::MouseWheelScrolled>(); mw)
         {
-            float zoom = 1.0f - (0.2f * event.mouseWheelScroll.delta);
+            float zoom = 1.0f - (0.2f * mw->delta);
             sf::Vector2f worldPos = window.mapPixelToCoords(mousePos);
             zoomTo(window, zoom, worldPos);
         }
 
-        if (event.type == sf::Event::MouseMoved)
+        if (auto* mm = event.getIf<sf::Event::MouseMoved>(); mm)
         {
             if (sf::Mouse::isButtonPressed(m_scrollButton))
             {

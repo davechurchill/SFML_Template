@@ -1,4 +1,4 @@
-#include "GameEngine.h"
+#include "GameEngine.hpp"
 #include "Scene_Grid.h"
 
 #include <sstream>
@@ -7,7 +7,7 @@
 int main()
 {
     GameEngine engine;
-    engine.changeScene("Grid", std::make_shared<Scene_Grid>(&engine));
+    engine.changeScene<Scene_Grid>("Grid");
     engine.run();
 
     return 0;

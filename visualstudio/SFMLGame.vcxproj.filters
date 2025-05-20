@@ -2,15 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
-    <ClCompile Include="..\src\Assets.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\GameEngine.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Scene.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Scene_Grid.cpp">
       <Filter>gui</Filter>
     </ClCompile>
@@ -34,26 +25,26 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\Assets.h">
+    <ClInclude Include="..\src\Assets.hpp">
       <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\GameEngine.h">
+    <ClInclude Include="..\src\GameEngine.hpp">
       <Filter>engine</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Vec2.hpp">
       <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\WorldView.hpp">
-      <Filter>engine</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Grid.hpp">
       <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Scene.h">
+    <ClInclude Include="..\src\Scene.hpp">
       <Filter>engine</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Scene_Grid.h">
       <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ViewController.hpp">
+      <Filter>engine</Filter>
     </ClInclude>
     <ClInclude Include="..\src\imgui\imconfig.h">
       <Filter>engine\imgui</Filter>
@@ -81,9 +72,6 @@
     </ClInclude>
     <ClInclude Include="..\src\imgui\imstb_truetype.h">
       <Filter>engine\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\ViewController.hpp">
-      <Filter>engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
